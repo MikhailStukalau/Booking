@@ -3,7 +3,7 @@ from fastapi import HTTPException, status
 
 class BookingExceptions(HTTPException):
     status_code = 500
-    details = ""
+    detail = ""
 
     def __init__(self):
         super().__init__(status_code=self.status_code, detail=self.detail)
@@ -35,5 +35,9 @@ class IncorrectTokenFormatException(BookingExceptions):
 
 
 class UserIsNotPresentException(BookingExceptions):
-    status_code=status.HTTP_401_UNAUTHORIZED
+    status_code = status.HTTP_401_UNAUTHORIZED
 
+
+class RoomCannotBeBooked(BookingExceptions):
+    status_code = status.HTTP_409_CONFLICT
+    detail = "There are no available rooms left"
