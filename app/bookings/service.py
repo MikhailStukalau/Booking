@@ -1,7 +1,9 @@
 from datetime import date
+
 from sqlalchemy import and_, or_, select, insert, func
 from app.bookings.models import Bookings
 from app.database import engine, async_session_maker
+from app.hotels.models import Hotels
 from app.hotels.rooms.models import Rooms
 from app.service.base import BaseService
 
@@ -75,5 +77,3 @@ class BookingService(BaseService):
                 return new_booking.scalar()
             else:
                 return None
-
-

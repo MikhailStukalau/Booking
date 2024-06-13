@@ -23,7 +23,9 @@ class BaseService:
     async def find_all(cls, **filter_by):
         async with async_session_maker() as session:
             query = select(cls.model.__table__.columns).filter_by(**filter_by)
-            # __table__.columns нужен для отсутствия вложенности в ответе
+            """
+            __table__.columns нужен для отсутствия вложенности в ответе
+            """
             result = await session.execute(query)
             return result.mappings().all()
 
