@@ -6,7 +6,7 @@ from fastapi_cache.decorator import cache
 
 from app.exceptions import DateFromCannotBeAfterDateTo, CannotBookHotelForLongPeriod
 from app.hotels.service import HotelService
-from app.hotels.shemas import SHotelInfo, SHotel
+from app.hotels.schemas import SHotelInfo, SHotel
 
 router = APIRouter(
     prefix="/hotels",
