@@ -40,9 +40,19 @@ class UserIsNotPresentException(BookingExceptions):
 
 class RoomCannotBeBooked(BookingExceptions):
     status_code = status.HTTP_409_CONFLICT
-    detail = "The reservation failed due to an unknown error."
+    detail = "The reservation failed due to an unknown error"
 
 
 class RoomFullyBooked(BookingExceptions):
     status_code = status.HTTP_409_CONFLICT
     detail = "There are no available rooms left"
+
+
+class DateFromCannotBeAfterDateTo(BookingExceptions):
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = "Check-in date cannot be later than check-out date"
+
+
+class CannotBookHotelForLongPeriod(BookingExceptions):
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = "It's not possible to book a hotel for more than a month"
