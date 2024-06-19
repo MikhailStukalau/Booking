@@ -15,9 +15,9 @@ class HotelService(BaseService):
     @classmethod
     async def find_all(
             cls,
+            location: str,
             date_from: date,
             date_to: date,
-            location: str
     ):
 
         """
@@ -74,6 +74,6 @@ class HotelService(BaseService):
 
         async with async_session_maker() as session:
             # logger.debug(get_hotels_with_rooms.compile(engine, compile_kwargs={"literal_binds": True}))
-            print(get_hotels_with_rooms.compile(engine, compile_kwargs={"literal_binds": True}))
+            # print(get_hotels_with_rooms.compile(engine, compile_kwargs={"literal_binds": True}))
             hotels_with_rooms = await session.execute(get_hotels_with_rooms)
             return hotels_with_rooms.mappings().all()
