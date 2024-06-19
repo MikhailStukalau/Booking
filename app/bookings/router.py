@@ -1,8 +1,8 @@
 from datetime import date
-
-from fastapi import APIRouter, Request, Depends
+from pydantic import TypeAdapter
+from fastapi import APIRouter, Request, Depends, BackgroundTasks
 from app.bookings.service import BookingService
-from app.bookings.schemas import SBooking
+from app.bookings.schemas import SBooking, SNewBooking
 from app.exceptions import RoomCannotBeBooked
 from app.users.dependencies import get_current_user
 from app.users.models import Users
@@ -18,11 +18,28 @@ async def get_bookings(user: Users = Depends(get_current_user)) -> list[SBooking
     return await BookingService.find_all(user_id=user.id)
 
 
-@router.post("")
+@router.post("", status_code=201)
 async def add_bookings(
-        room_id: int, date_from: date, date_to: date,
-        user: Users = Depends(get_current_user),
+        booking: SNewBooking,
+        background_tasks: BackgroundTasks,
+        user: Users = Depends(get_current_user)
 ):
-    booking = await BookingService.add(user.id, room_id, date_from, date_to)
+    booking = await BookingService.add(
+        user.id,
+        booking.room_id,
+        booking.date_from,
+        booking.date_to
+    )
     if not booking:
         raise RoomCannotBeBooked
+    booking = TypeAdapter(SNewBooking).validate_python(booking).model_dump()
+    return booking
+
+
+@router.delete("/{booking_id}")
+async def remove_booking(
+        booking_id: int,
+        current_user: Users = Depends(get_current_user)
+):
+    await BookingService.delete(id=booking_id, user=current_user.id)
+
