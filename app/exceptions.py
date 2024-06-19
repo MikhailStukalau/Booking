@@ -40,4 +40,9 @@ class UserIsNotPresentException(BookingExceptions):
 
 class RoomCannotBeBooked(BookingExceptions):
     status_code = status.HTTP_409_CONFLICT
+    detail = "The reservation failed due to an unknown error."
+
+
+class RoomFullyBooked(BookingExceptions):
+    status_code = status.HTTP_409_CONFLICT
     detail = "There are no available rooms left"
