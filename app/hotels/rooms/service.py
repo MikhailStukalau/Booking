@@ -14,9 +14,9 @@ class RoomService(BaseService):
     @classmethod
     async def find_all(
             cls,
+            hotel_id: int,
             date_from: date,
             date_to: date,
-            hotel_id: int
     ):
 
         """
