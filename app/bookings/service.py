@@ -55,7 +55,7 @@ class BookingService(BaseService):
                 Rooms.quantity, booked_rooms.c.room_id
             )
 
-            print(get_rooms_left.compile(engine, compile_kwargs={"literal_binds": True}))
+            # print(get_rooms_left.compile(engine, compile_kwargs={"literal_binds": True}))
             # Вывод запроса SQLAlchemy в виде SQL
 
             rooms_left = await session.execute(get_rooms_left)
@@ -70,10 +70,16 @@ class BookingService(BaseService):
                     date_from=date_from,
                     date_to=date_to,
                     price=price,
-                ).returning(Bookings)
+                ).returning(
+                    Bookings.id,
+                    Bookings.user_id,
+                    Bookings.room_id,
+                    Bookings.date_from,
+                    Bookings.date_to
+                )
 
                 new_booking = await session.execute(add_booking)
                 await session.commit()
-                return new_booking.scalar()
+                return new_booking.mappings().one()
             else:
                 return None
