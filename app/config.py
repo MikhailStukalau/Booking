@@ -1,7 +1,12 @@
+from typing import Literal
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    # MODE: Literal["DEV", "TEST", "PROD"]
+    # LOG_LEVEL: str
+
     DB_HOST: str
     DB_PORT: int
     DB_USER: str
@@ -9,6 +14,14 @@ class Settings(BaseSettings):
     DB_NAME: str
     SECRET_KEY: str
     ALGORITHM: str
+
+    SMTP_HOST: str
+    SMTP_PORT: int
+    SMTP_USER: str
+    SMTP_PASS: str
+
+    REDIS_HOST: str
+    REDIS_PORT: int
 
     # @property
     # def get_database_url(self):
